@@ -61,11 +61,11 @@ public class MainActivity extends FragmentActivity implements
 
 	private HorizontalScrollView mHorizontalTabScrollView;
 
-	private HashMap<String, Tab> mTabMap = new LinkedHashMap<String, Tab>();
+	private HashMap<String, Tab> mTabMap;
 
 	private int mScrollToX;
 
-	private ListAdapter arrayNavigationDrawerAdapter;
+	private ListAdapter mArrayNavigationDrawerAdapter;
 
 	public static class Tab {
 		int index;
@@ -139,14 +139,15 @@ public class MainActivity extends FragmentActivity implements
 			}
 		});
 
-		arrayNavigationDrawerAdapter = new ArrayAdapter<Tab>(this,
+		mArrayNavigationDrawerAdapter = new ArrayAdapter<Tab>(this,
 				android.R.layout.simple_list_item_1, mTabMap.values().toArray(
 						new Tab[0]));
-		mDrawerListView.setAdapter(arrayNavigationDrawerAdapter);
+		mDrawerListView.setAdapter(mArrayNavigationDrawerAdapter);
 		mDrawerListView.setOnItemClickListener(this);
 	}
 
 	private void createStubTab() {
+		mTabMap = new LinkedHashMap<String, Tab>();
 		mTabMap.put("0", new Tab(0, "Tab 0"));
 		mTabMap.put("1", new Tab(1, "Tab 1"));
 		mTabMap.put("2", new Tab(2, "Tab 2"));
@@ -274,7 +275,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Tab tab = (Tab) arrayNavigationDrawerAdapter.getItem(position);
+		Tab tab = (Tab) mArrayNavigationDrawerAdapter.getItem(position);
 		selectTab(tab);
 	}
 
