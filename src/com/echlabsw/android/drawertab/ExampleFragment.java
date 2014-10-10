@@ -15,8 +15,8 @@
  */
 package com.echlabsw.android.drawertab;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -28,8 +28,19 @@ import android.widget.TextView;
 public class ExampleFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener {
 
-	private SwipeRefreshLayout mSwipeLayout;
+	public static interface OnRefreshContentListener {
+		/**
+		 * Notified when a refresh is triggered via the swipe gesture.
+		 * 
+		 * @param swipeLayout
+		 */
+		void onRefreshFragmentContent(SwipeRefreshLayout swipeLayout);
+	}
 
+	private SwipeRefreshLayout mSwipeLayout;
+	private OnRefreshContentListener mOnRefreshContentListener;
+
+	@SuppressWarnings("deprecation")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -63,18 +74,26 @@ public class ExampleFragment extends Fragment implements
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mOnRefreshContentListener = (OnRefreshContentListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnRefreshContentListener");
+		}
+	}
+
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}
 
 	@Override
 	public void onRefresh() {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				mSwipeLayout.setRefreshing(false);
-			}
-		}, 2000);
+		if (mOnRefreshContentListener != null) {
+			mOnRefreshContentListener.onRefreshFragmentContent(mSwipeLayout);
+		}
 	}
 
 }
