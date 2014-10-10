@@ -4,11 +4,10 @@
 
 Example of Android Application that use Navigation Drawer with ViewPager and Tab.
 
-This example uses also the newest Android component ***SwipeRefreshLayout*** only for demo purpose: You can refresh Tab's contents simply pulling down content page.
+This example uses also the newest Android component ***SwipeRefreshLayout*** only for demo purpose: You can refresh Tab's contents simply pulling down content page (using AsyncTaskLoader).
 
 Added SwipeRefreshLayout demo in fragments.
 
-Added AsyncTaskLoader example: refresh tab content with pull down content page.
 
 ###Tabbed View Pager
 <img src="https://cloud.githubusercontent.com/assets/7020500/4184863/b125de60-374f-11e4-9923-c3ff85a97eff.png" style="width: 150px;"/>
